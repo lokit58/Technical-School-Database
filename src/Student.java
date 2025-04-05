@@ -2,7 +2,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 abstract class Student {
-    private static int assignID = 1;
     protected int id;
     protected String name;
     protected String surename;
@@ -10,7 +9,7 @@ abstract class Student {
     protected List<Integer> grades;
     protected Specialisation specialisation;
     public Student(int id, String name, String surename, LocalDate birthDate, List<Integer> grades, Specialisation specialisation) {
-        this.id = assignID++;
+        this.id = id;
         this.name = name;
         this.surename = surename;
         this.birthDate = birthDate;
@@ -19,10 +18,6 @@ abstract class Student {
     public enum Specialisation {
         TELECOMMUNICATIONS,
         CYBERSECURITY
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -64,6 +59,4 @@ abstract class Student {
 
     }
 
-
-    public abstract void getCodedIdentity();
 }
