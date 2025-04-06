@@ -1,30 +1,66 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class Database {
 	public Map<Integer, Student> data;
 	private List<Integer> priorityIDs;
+	private int nextID;
 	
 	public Database() {
 		data = new HashMap<Integer, Student>();
 		priorityIDs = new ArrayList<Integer>();
 		
 	}
-	
-	public void addStudent(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation) {
-
-		if (specialisation == Student.Specialisation.CYBERSECURITY ) {
-			
+	private int getNextId() {
+		if (data.isEmpty()) {
+			return 0;
 		}
-		else {
-			
+		return Collections.max(data.keySet()) + 1 ;
+	}
+	private void addStudentToDatabase(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
+		nextID = getNextId();
+		for (int i = 0; i < priorityIDs.size(); i++) {
+			if(priorityIDs.get(i)< nextID) {
+				nextID = priorityIDs.get(i);
+				break;
+			}
+		}
+		
+		if (specialisation == Student.Specialisation.CYBERSECURITY) {
+			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, grades, specialisation));
+		}
+		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
+			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, grades, specialisation));
 		}
 	}
 	
+	public void addStudent(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
+		addStudentToDatabase(name, surname, birtDate, specialisation, grades);
+	}
+	
+	public void addStudent(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation) {
+		ArrayList<Integer> dummy = null;
+		addStudentToDatabase(name, surname, birtDate, specialisation, dummy);
+	}
+	
+	public String useSpeciality(int ID) {
+		if (data.get(ID) instanceof CyberStudent) {
+			//return ((CyberStudent)data.get(ID)).
+		}
+		else if (data.get(ID) instanceof TeleStudent) {
+			//return ((TelerStudent)data.get(ID)).
+		}
+		return null;
+	}
+	
+	//TODO
 	public boolean giveGrade(int ID, int grade) {
 		(data.get(ID)).addGrade(grade);
 		return true;
@@ -67,17 +103,31 @@ public class Database {
 		
 		for (Student student : data.values()) {
 			if (student instanceof TeleStudent) {
-				grades[0] += student.averageGrades();
+				if(student.averageGrades() == 0.0) {
+					quantity[0]--;
+				}
+				else {
+					grades[0] += student.averageGrades();
+				}
 			}
 			else if (student instanceof CyberStudent) {
-				grades[1] += student.averageGrades();
+				if(student.averageGrades() == 0.0) {
+					quantity[1]--;
+				}
+				else {
+					grades[1] += student.averageGrades();
+				}
 			}
 		}
 		
 		for (int i = 0; i < grades.length; i++) {
-			grades[i] /= (double)quantity[i];
+			if(quantity[i] <=0 ) {
+				grades[i] = 0;
+			}
+			else {
+				grades[i] /= (double)quantity[i];
+			}
 		} 
-		
 		return grades;
 	}
 	
