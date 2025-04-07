@@ -8,7 +8,7 @@ abstract class Student {
     protected LocalDate birthDate;
     protected List<Integer> grades;
     protected Specialisation specialisation;
-    public Student(int id, String name, String surename, LocalDate birthDate, List<Integer> grades, Specialisation specialisation) {
+    public Student(int id, String name, String surename, LocalDate birthDate, Specialisation specialisation) {
         this.id = id;
         this.name = name;
         this.surename = surename;
@@ -35,26 +35,32 @@ abstract class Student {
     public Specialisation getSpecialisation() {
         return specialisation;
     }
-    public void addGrade(int grade) {
+    public boolean addGrade(int grade) {
         if(grade>=1 && grade<=5) {
             grades.add(grade);
+            return true;
         }
+        return false;
     }
 
     public double averageGrades () {
         if (grades.isEmpty()) {
             return 0.0;
+
         }
         return grades.stream().mapToInt(Integer::intValue).average().orElse(0.0);
     }
 
     @Override
     public String toString() {
+        String gradeText = grades.isEmpty() ? "No grades yet" : grades.toString();
+        String averageText = grades.isEmpty() ? "-" : String.format("%.2f", averageGrades());
         return "ID: " + id + "\\n" +
                 "Name: " + name + "\\n" +
                 "Surename: " + surename + "\\n" +
                 "Date of birth " + birthDate + "\\n" +
                 "Specialisation: " + specialisation + "\\n" +
+                "Grades: " + grades + "\n" +
                 "Average of grades: " + averageGrades();
 
     }

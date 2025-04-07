@@ -34,10 +34,10 @@ public class Database {
 		}
 		
 		if (specialisation == Student.Specialisation.CYBERSECURITY) {
-			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, grades, specialisation));
+			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, specialisation));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, grades, specialisation));
+			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, specialisation));
 		}
 	}
 	
