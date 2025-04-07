@@ -27,8 +27,9 @@ public class Database {
 	private void addStudentToDatabase(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
 		nextID = getNextId();
 		for (int i = 0; i < priorityIDs.size(); i++) {
-			if(priorityIDs.get(i)< nextID) {
+			if(priorityIDs.get(i)<= nextID) {
 				nextID = priorityIDs.get(i);
+				priorityIDs.remove(i);
 				break;
 			}
 		}
@@ -52,18 +53,16 @@ public class Database {
 	
 	public String useSpeciality(int ID) {
 		if (data.get(ID) instanceof CyberStudent) {
-			//return ((CyberStudent)data.get(ID)).
+			return ((CyberStudent)data.get(ID)).getHashName();
 		}
 		else if (data.get(ID) instanceof TeleStudent) {
-			//return ((TelerStudent)data.get(ID)).
+			return ((TeleStudent)data.get(ID)).getNameInMorseCode();
 		}
 		return null;
 	}
 	
-	//TODO
 	public boolean giveGrade(int ID, int grade) {
-		(data.get(ID)).addGrade(grade);
-		return true;
+		return (data.get(ID)).addGrade(grade);
 	}
 	
 	public boolean removeStudent(int ID) {

@@ -6,8 +6,7 @@ public class TeleStudent extends Student {
         super(id, name, surename, birthDate, specialisation);
     }
 
-    public void getCodedIdentity() {
-        return;
-        //return Morse.translate(name + surename);
+    public String getNameInMorseCode () {
+        return SpecialSkills.codeToMorse(name+surename);
     }
 }

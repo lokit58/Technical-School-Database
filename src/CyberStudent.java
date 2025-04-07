@@ -6,9 +6,7 @@ public class CyberStudent extends Student {
         super(id, name, surename, birthDate, specialisation);
     }
 
-    @Override
-    public void getCodedIdentity() {
-        //return hashSolve(name + surename);
-        return;
+    public String getHashName() {
+        return SpecialSkills.createHash(name+surename);
     }
 }
