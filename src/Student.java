@@ -8,12 +8,21 @@ abstract class Student {
     protected LocalDate birthDate;
     protected List<Integer> grades;
     protected Specialisation specialisation;
+
+
     public Student(int id, String name, String surename, LocalDate birthDate, Specialisation specialisation) {
         this.id = id;
         this.name = name;
         this.surename = surename;
         this.birthDate = birthDate;
+        this.specialisation = specialisation;
         this.grades = new ArrayList<>();
+    }
+
+
+    public Student(int id, String name, String surename, LocalDate birthDate, Specialisation specialisation, List<Integer> grades) {
+        this(id, name, surename, birthDate, specialisation);
+        this.grades = grades != null ? new ArrayList<>(grades) : new ArrayList<>();
     }
     public enum Specialisation {
         TELECOMMUNICATIONS,
@@ -43,14 +52,16 @@ abstract class Student {
         return false;
     }
 
-    public double averageGrades () {
-        if (grades.isEmpty()) {
-            return 0.0;
+    public double averageGrades() {
+        if (grades.isEmpty()) return 0.0;
 
+        int sum = 0;
+        for (int grade : grades) {
+            sum += grade;
         }
-        return grades.stream().mapToInt(Integer::intValue).average().orElse(0.0);
-    }
 
+        return (double) sum / grades.size();
+    }
     @Override
     public String toString() {
         String gradeText = grades.isEmpty() ? "No grades yet" : grades.toString();
