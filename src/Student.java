@@ -66,11 +66,11 @@ abstract class Student {
     public String toString() {
         String gradeText = grades.isEmpty() ? "No grades yet" : grades.toString();
         String averageText = grades.isEmpty() ? "-" : String.format("%.2f", averageGrades());
-        return "ID: " + id + "\\n" +
-                "Name: " + name + "\\n" +
-                "Surename: " + surename + "\\n" +
-                "Date of birth " + birthDate + "\\n" +
-                "Specialisation: " + specialisation + "\\n" +
+        return "ID: " + id + "\n" +
+                "Name: " + name + "\n" +
+                "Surename: " + surename + "\n" +
+                "Date of birth " + birthDate + "\n" +
+                "Specialisation: " + specialisation + "\n" +
                 "Grades: " + grades + "\n" +
                 "Average of grades: " + averageGrades();
 

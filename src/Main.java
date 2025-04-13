@@ -8,8 +8,9 @@ public class Main {
     	Database database = new Database();
     	LocalDate localDate = LocalDate.of(2002, 11, 23);
     	database.addStudent("idk", "lol", localDate, Student.Specialisation.CYBERSECURITY);
-    	database.giveGrade(1, 3);
-    	System.out.println(database.data.get(1));
+    	database.giveGrade(0, 3);
+    	System.out.println(database.getInfo(0));
+    	database.writeStudentsIntoFile(0,0,0);
     	
     }
 }

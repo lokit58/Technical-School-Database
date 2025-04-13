@@ -1,12 +1,13 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 public class Database {
 	public Map<Integer, Student> data;
@@ -24,6 +25,8 @@ public class Database {
 		}
 		return Collections.max(data.keySet()) + 1 ;
 	}
+	
+	//----------------------------------------------------------
 	private void addStudentToDatabase(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
 		nextID = getNextId();
 		for (int i = 0; i < priorityIDs.size(); i++) {
@@ -51,6 +54,7 @@ public class Database {
 		addStudentToDatabase(name, surname, birtDate, specialisation, dummy);
 	}
 	
+	//----------------------------------------------------------
 	public String useSpeciality(int ID) {
 		if (data.get(ID) instanceof CyberStudent) {
 			return ((CyberStudent)data.get(ID)).getHashName();
@@ -61,10 +65,12 @@ public class Database {
 		return null;
 	}
 	
+	//----------------------------------------------------------
 	public boolean giveGrade(int ID, int grade) {
-		return (data.get(ID)).addGrade(grade);
+		return data.get(ID).addGrade(grade);
 	}
 	
+	//----------------------------------------------------------
 	public boolean removeStudent(int ID) {
 		if (data.containsKey(ID)) {
 			priorityIDs.add(ID);
@@ -74,13 +80,15 @@ public class Database {
 		return false;
 	}
 	
+	//----------------------------------------------------------
 	public String getInfo(int ID) {
-		if (data.containsKey(ID)) {
+		if (!data.containsKey(ID)) {
 			return "";
 		}
 		return (data.get(ID)).toString();
 	}
 	
+	//----------------------------------------------------------
 	public int[] getQuantityOfStudentsInEachGroup() {
 		int [] quantity = new int[] {0,0}; //TELE, CYBER
 		
@@ -95,6 +103,7 @@ public class Database {
 		return quantity;
 	}
 	
+	//----------------------------------------------------------
 	public double[] getAvreageGradeOfStudentGroup() {
 		double grades[] = new double[] {0.0,0.0}; //TELE, CYBER
 		
@@ -130,6 +139,7 @@ public class Database {
 		return grades;
 	}
 	
+	//----------------------------------------------------------
 	public ArrayList<Student> getSortedListBySurnames(){
 		ArrayList<Student> sortedData = new ArrayList<Student>(data.values());
 		
@@ -140,5 +150,52 @@ public class Database {
 			}
 		});
 		return sortedData;
+	}
+	
+	//----------------------------------------------------------
+	public boolean writeStudentsIntoFile(String path, int...IDs) {
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		
+		try {
+			fw = new FileWriter(path);
+			bw = new BufferedWriter(fw);
+			
+			for (int ID : IDs) {
+				String info = getInfo(ID);
+		
+				if (info == "") {
+					continue;
+				}
+				
+				bw.write(info);
+				bw.newLine();
+				bw.write("################################");
+				bw.newLine();
+			}
+		} 
+		catch (Exception e1) {
+			return false;
+		} 
+		finally {
+			
+			try {
+				bw.close();
+				fw.close();
+			} 
+			catch (Exception e2) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean writeStudentsIntoFile(int...IDs) {
+		return writeStudentsIntoFile("output.txt",IDs);
+	}
+	
+	//----------------------------------------------------------
+	public boolean readStudentsFromFiles(String path) {
+		return true;
 	}
 }
