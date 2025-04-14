@@ -1,12 +1,16 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.lang.invoke.StringConcatFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Database {
@@ -38,10 +42,10 @@ public class Database {
 		}
 		
 		if (specialisation == Student.Specialisation.CYBERSECURITY) {
-			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, specialisation));
+			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, specialisation, grades));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, specialisation));
+			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, specialisation, grades));
 		}
 	}
 	
@@ -195,7 +199,54 @@ public class Database {
 	}
 	
 	//----------------------------------------------------------
-	public boolean readStudentsFromFiles(String path) {
+	public boolean readStudentsFromFile(String path) {
+		File inputFile = new File(path);
+		Scanner fileScanner = null;
+		
+		try {
+			fileScanner = new Scanner(inputFile);
+			while (fileScanner.hasNextLine()) {
+				fileLineToNewStudent(fileScanner.nextLine());
+			}
+			
+			
+		} 
+		catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+		finally {
+			fileScanner.close();
+		}
+		
 		return true;
+	}
+	
+	public boolean readStudentsFromFile() {
+		return readStudentsFromFile("input.txt");
+	}
+	
+	private boolean fileLineToNewStudent(String input) {
+		if (input.startsWith("#")) 
+			return false;
+		
+		input = input.replaceAll("\\s","");
+		
+		String [] studentInfo = input.split(";");
+		String [] date = studentInfo[2].split("-");
+		String [] grade = studentInfo[4].split(",");
+		
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		for (int i = 0; i < grade.length; i++) {
+			grades.add(Integer.parseInt(grade[i]));
+		}
+		
+		addStudent( studentInfo[0], 
+					studentInfo[1], 
+					LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])), 
+					Student.Specialisation.valueOf(studentInfo[3]),
+					grades);
+					
+		return true;	
 	}
 }

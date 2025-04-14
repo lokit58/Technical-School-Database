@@ -1,0 +1,5 @@
+#Start comment
+#Input order: Name; Surname; Date of birth (YYYY-MM-DD); Specialisation (CYBERSECURITY or TELECOMMUNICATIONS); Grades (any number of 1, 2, 3, 4, 5 divided by ',' or none)
+#Example: Vit; Nemecek; 2002-11-23; TELECOMMUNICATIONS; 1, 2, 3, 4
+Vit; Nemecek; 2002-11-23; TELECOMMUNICATIONS; 1, 2, 3, 4
+Ema; Ondruskovat; 2003-11-23; TELECOMMUNICATIONS; 1, 1, 3, 4

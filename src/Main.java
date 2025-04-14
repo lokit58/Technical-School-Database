@@ -9,8 +9,13 @@ public class Main {
     	LocalDate localDate = LocalDate.of(2002, 11, 23);
     	database.addStudent("idk", "lol", localDate, Student.Specialisation.CYBERSECURITY);
     	database.giveGrade(0, 3);
+    	/*
     	System.out.println(database.getInfo(0));
     	database.writeStudentsIntoFile(0,0,0);
+    	*/
     	
+    	database.readStudentsFromFile();
+    	System.out.println(database.getInfo(1));
+    	System.out.println(database.getInfo(2));
     }
 }

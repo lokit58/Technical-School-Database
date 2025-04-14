@@ -6,7 +6,7 @@ abstract class Student {
     protected String name;
     protected String surename;
     protected LocalDate birthDate;
-    protected List<Integer> grades;
+    protected ArrayList<Integer> grades;
     protected Specialisation specialisation;
 
 
@@ -16,13 +16,17 @@ abstract class Student {
         this.surename = surename;
         this.birthDate = birthDate;
         this.specialisation = specialisation;
-        this.grades = new ArrayList<>();
+        this.grades = new ArrayList<Integer>();
     }
 
 
-    public Student(int id, String name, String surename, LocalDate birthDate, Specialisation specialisation, List<Integer> grades) {
-        this(id, name, surename, birthDate, specialisation);
-        this.grades = grades != null ? new ArrayList<>(grades) : new ArrayList<>();
+    public Student(int id, String name, String surename, LocalDate birthDate, Specialisation specialisation, ArrayList<Integer> grades) {
+    	 this.id = id;
+         this.name = name;
+         this.surename = surename;
+         this.birthDate = birthDate;
+         this.specialisation = specialisation;
+         this.grades = grades;
     }
     public enum Specialisation {
         TELECOMMUNICATIONS,
@@ -45,6 +49,10 @@ abstract class Student {
         return specialisation;
     }
     public boolean addGrade(int grade) {
+    	if (grades == null) {
+			grades = new ArrayList<Integer>();
+		}
+    	
         if(grade>=1 && grade<=5) {
             grades.add(grade);
             return true;
