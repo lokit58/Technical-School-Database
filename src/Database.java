@@ -1,10 +1,8 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.lang.invoke.StringConcatFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -248,5 +246,14 @@ public class Database {
 					grades);
 					
 		return true;	
+	}
+	
+	//----------------------------------------------------------
+	public void loadFromSQL() {
+		
+	}
+	
+	public void saveToSQL() {
+		
 	}
 }

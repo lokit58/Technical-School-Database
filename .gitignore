@@ -1,4 +1,7 @@
 bin/
+src/sqltest.java
+
+myDB.db
 
 *.txt
 !input.txt
