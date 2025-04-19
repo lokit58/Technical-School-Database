@@ -49,9 +49,20 @@ public class SQLDatabase {
 						+ "specialisation varchar(20)"  
 						+ ");";
 		
+		String table_2 = "CREATE TABLE IF NOT EXISTS grades ("		//name of table
+						+ "studentId integer,"						//ID of student
+						+ "grade integer"							//students grade
+						+ ");";
+		
+		String table_3 = "CREATE TABLE IF NOT EXISTS priorityIds (" //name of table
+						+ "priorIds integer"						//priority ID
+						+ ");";
+		
 		try {
 			Statement stm = connection.createStatement();
 			stm.execute(table_1);
+			stm.execute(table_2);
+			stm.execute(table_3);
 			return true;
 			
 		} 
@@ -62,20 +73,56 @@ public class SQLDatabase {
 	}
 	
 	//----------------------------------------------------------
-	public boolean insert() {
-		String ins = "INSERT INTO students(id,name,surname,dateOfBirth,specialisation) VALUES(?,?,?,?,?)"; 
+	public boolean insert(Database db) {
+		String massStudent = "INSERT INTO students(id,name,surname,dateOfBirth,specialisation) VALUES(?,?,?,?,?)";
+		String massGrades = "INSERT INTO grades(studentId,grade) VALUES(?,?)";
+		String primaryId = "INSERT INTO priorityIds (priorIds) VALUES(?)";
+		
 		
 		try {
-			PreparedStatement stm = connection.prepareStatement(ins);
-			stm.setInt(1, 0);
-			stm.setString(2, "Vit");
-			stm.setString(3, "Nemecek");
-			stm.setString(4, "2002-11-23");
-			stm.setString(5, "CYBERSECURITY");
-			stm.execute();
-			return true;
+			PreparedStatement psStudent = connection.prepareStatement(massStudent);
+			PreparedStatement psGrades = connection.prepareStatement(massGrades);
+			PreparedStatement psIds = connection.prepareStatement(primaryId);
 			
-		} catch (SQLException ex) {
+			for (var student : db.data.values()) {
+				System.out.println(	student.getId());
+				
+				if(student.grades != null) {
+					for (int grade : student.grades) {
+						psGrades.setInt(1, student.getId());
+						psGrades.setInt(2, grade);
+						
+						psGrades.addBatch();
+						psGrades.clearParameters();
+					}
+					
+				}
+				
+				psStudent.setInt(1, student.getId());
+				psStudent.setString(2, student.getName());
+				psStudent.setString(3, student.getSurename());
+				psStudent.setString(4, student.getBirthDate().toString());
+				psStudent.setString(5, student.getSpecialisation().toString());
+				
+				psStudent.addBatch();
+				psStudent.clearParameters();
+			}
+			
+			psStudent.executeBatch();
+			psGrades.executeBatch();
+			
+			if(!db.getPriorityIDs().isEmpty()) {
+				for (int pG :db.getPriorityIDs()) {
+					psIds.setInt(1, pG);
+					psIds.addBatch();
+					psIds.clearParameters();
+				}
+				psGrades.execute();
+			}
+			
+			return true;
+		} 
+		catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
@@ -93,8 +140,10 @@ public class SQLDatabase {
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery(get);
 			
+			while (rs.next()) {
+				System.out.println(rs.getInt("id") + "\t" + rs.getString("name"));;
+			}
 			
-			System.out.println(rs.getInt("id") + "\t" + rs.getString("name"));
 				
 		} 
 		catch (SQLException ex) {

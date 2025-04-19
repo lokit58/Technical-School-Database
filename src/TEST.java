@@ -9,6 +9,7 @@ public class TEST {
 
         Scanner sc=new Scanner(System.in);
         InputManager input = new InputManager();
+        Database database = new Database();
         boolean run=true;
 
         {

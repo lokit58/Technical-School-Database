@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Database {
 	public Map<Integer, Student> data;
-	private List<Integer> priorityIDs;
+	private ArrayList<Integer> priorityIDs;
 	private int nextID;
 	
 	public Database() {
@@ -29,6 +29,16 @@ public class Database {
 	}
 	
 	//----------------------------------------------------------
+	public void addStudentToDatabaseWithID(int id, String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
+		if (specialisation == Student.Specialisation.CYBERSECURITY) {
+			data.put(id, new CyberStudent(nextID, surname, name, birtDate, specialisation, grades));
+		}
+		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
+			data.put(id, new TeleStudent(nextID, surname, name, birtDate, specialisation, grades));
+		}
+	}
+		
+	
 	private void addStudentToDatabase(String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
 		nextID = getNextId();
 		for (int i = 0; i < priorityIDs.size(); i++) {
@@ -81,7 +91,10 @@ public class Database {
 		}
 		return false;
 	}
-	
+	//----------------------------------------------------------
+	public ArrayList<Integer> getPriorityIDs(){
+		return priorityIDs;
+	}
 	//----------------------------------------------------------
 	public String getInfo(int ID) {
 		if (!data.containsKey(ID)) {
@@ -232,9 +245,18 @@ public class Database {
 		
 		String [] studentInfo = input.split(";");
 		String [] date = studentInfo[2].split("-");
-		String [] grade = studentInfo[4].split(",");
+		
+		
+		if (studentInfo.length != 5) {
+			addStudent( studentInfo[0], 
+					studentInfo[1], 
+					LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])), 
+					Student.Specialisation.valueOf(studentInfo[3]));
+			return true;
+		}
 		
 		ArrayList<Integer> grades = new ArrayList<Integer>();
+		String [] grade = studentInfo[4].split(",");
 		for (int i = 0; i < grade.length; i++) {
 			grades.add(Integer.parseInt(grade[i]));
 		}

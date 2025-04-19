@@ -45,7 +45,11 @@ abstract class Student {
         return birthDate;
     }
 
-    public Specialisation getSpecialisation() {
+    public int getId() {
+		return id;
+	}
+    
+	public Specialisation getSpecialisation() {
         return specialisation;
     }
     public boolean addGrade(int grade) {
