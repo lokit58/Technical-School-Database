@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class SQLDatabase {
 	private Connection connection;
@@ -73,7 +74,7 @@ public class SQLDatabase {
 	}
 	
 	//----------------------------------------------------------
-	public boolean insert(Database db) {
+	public boolean insertDatabase(Database db) {
 		String massStudent = "INSERT INTO students(id,name,surname,dateOfBirth,specialisation) VALUES(?,?,?,?,?)";
 		String massGrades = "INSERT INTO grades(studentId,grade) VALUES(?,?)";
 		String primaryId = "INSERT INTO priorityIds (priorIds) VALUES(?)";
@@ -85,8 +86,6 @@ public class SQLDatabase {
 			PreparedStatement psIds = connection.prepareStatement(primaryId);
 			
 			for (var student : db.data.values()) {
-				System.out.println(	student.getId());
-				
 				if(student.grades != null) {
 					for (int grade : student.grades) {
 						psGrades.setInt(1, student.getId());
@@ -130,27 +129,61 @@ public class SQLDatabase {
 	
 	//----------------------------------------------------------
 	
-	
-	
-	//----------------------------------------------------------
-	public boolean get() {
-		String get = "SELECT id, name FROM students";
+	public boolean removeDataFromSQL() {
+		String removeStudent ="DELETE FROM students";
+		String removeGrades ="DELETE FROM grades";
+		String removePriorityIDs ="DELETE FROM priorityIds";
 		
 		try {
 			Statement stm = connection.createStatement();
-			ResultSet rs = stm.executeQuery(get);
+			stm.execute(removeStudent);
+			stm.execute(removeGrades);
+			stm.execute(removePriorityIDs);
 			
+			return true;
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			return false;
+		}
+	}
+	
+	
+	//----------------------------------------------------------
+	public boolean getDatabase(Database db) {
+		String getStudnets = "SELECT * FROM students";
+		String getGrades = "SELECT * FROM grades";
+		String getPriorityID = "SELECT * FROM priorityIds";
+		
+		try {
+			Statement stm = connection.createStatement();
+			
+			ResultSet rs = stm.executeQuery(getStudnets);
 			while (rs.next()) {
-				System.out.println(rs.getInt("id") + "\t" + rs.getString("name"));;
+				db.addStudentToDatabaseWithID(	rs.getInt("id"), 
+												rs.getString("name"), 
+												rs.getString("surname"),
+												LocalDate.parse(rs.getString("dateOfBirth")),
+												Student.Specialisation.valueOf(rs.getString("specialisation")), 
+												null);
 			}
 			
+			rs = stm.executeQuery(getGrades);
+			while (rs.next()) {
+				db.giveGrade(rs.getInt("studentId"),rs.getInt("grade"));
 				
+			}
+			
+			rs = stm.executeQuery(getPriorityID);
+			while (rs.next()) {
+				db.addPriorityID(rs.getInt("priorIds"));;
+			}		
+			
+			return true;
 		} 
 		catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
-		
-		return true;
 	}
 }

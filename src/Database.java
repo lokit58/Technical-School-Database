@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,7 +18,6 @@ public class Database {
 	public Database() {
 		data = new HashMap<Integer, Student>();
 		priorityIDs = new ArrayList<Integer>();
-		
 	}
 	private int getNextId() {
 		if (data.isEmpty()) {
@@ -95,6 +93,11 @@ public class Database {
 	public ArrayList<Integer> getPriorityIDs(){
 		return priorityIDs;
 	}
+	
+	public void addPriorityID(int ID) {
+		priorityIDs.add(ID);
+	}
+	
 	//----------------------------------------------------------
 	public String getInfo(int ID) {
 		if (!data.containsKey(ID)) {
@@ -268,14 +271,5 @@ public class Database {
 					grades);
 					
 		return true;	
-	}
-	
-	//----------------------------------------------------------
-	public void loadFromSQL() {
-		
-	}
-	
-	public void saveToSQL() {
-		
 	}
 }

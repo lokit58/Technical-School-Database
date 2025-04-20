@@ -8,6 +8,7 @@ public class Main {
     	
     	Database database = new Database();
     	LocalDate localDate = LocalDate.of(2002, 11, 23);
+    	
     	//database.addStudent("idk", "lol", localDate, Student.Specialisation.CYBERSECURITY);
     	//database.giveGrade(0, 3);
     	
@@ -15,25 +16,29 @@ public class Main {
     	//database.writeStudentsIntoFile(0,0,0);
     	
     	
-    	database.readStudentsFromFile();
+    	//database.readStudentsFromFile();
+    	
     	//System.out.println(database.data.get(0).getBirthDate().toString());
     	//System.out.println(database.data.get(0).getSpecialisation().toString());
-    	/*
-    	System.out.println(database.getInfo(0));
-    	System.out.println(database.getInfo(1));
-    	System.out.println(database.getInfo(2));
-    	System.out.println(database.getInfo(14));
-    	*/
+    	
     	
     	
     	SQLDatabase DB = new SQLDatabase();
     	
     	System.out.println(DB.connectToDB());
-    	System.out.println(DB.createTABLES());
-    	System.out.println(DB.insert(database));
-    	System.out.println(DB.get());
+    	//System.out.println(DB.createTABLES());
+    	//System.out.println(DB.insertDatabase(database));
+    	//System.out.println(DB.getDatabase(database));
     	
     	DB.disconnectDB();
+    	
+    	
+    	System.out.println(database.getInfo(0));
+    	System.out.println(database.getInfo(1));
+    	System.out.println(database.getInfo(2));
+    	System.out.println(database.getInfo(14));
+    	
+    	
     	
     	/*
     	sqltest cdf = new sqltest();
