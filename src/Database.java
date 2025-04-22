@@ -237,7 +237,7 @@ public class Database {
 	}
 	
 	public boolean readStudentsFromFile() {
-		return readStudentsFromFile("input.txt");
+		return readStudentsFromFile("output.txt");
 	}
 	
 	private boolean fileLineToNewStudent(String input) {
