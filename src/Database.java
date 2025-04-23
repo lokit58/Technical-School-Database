@@ -32,7 +32,7 @@ public class Database {
 			data.put(id, new CyberStudent(nextID, name, surname, birtDate, specialisation, grades));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(id, new TeleStudent(nextID, name, surname,, birtDate, specialisation, grades));
+			data.put(id, new TeleStudent(nextID, name, surname, birtDate, specialisation, grades));
 		}
 	}
 		
