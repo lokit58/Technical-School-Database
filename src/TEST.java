@@ -1,11 +1,8 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class TEST {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         InputManager input = new InputManager();
         Database database = new Database();
         SQLDatabase sqlDB = new SQLDatabase();

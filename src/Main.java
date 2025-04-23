@@ -16,7 +16,7 @@ public class Main {
     	//database.writeStudentsIntoFile(0,0,0);
     	
     	
-    	//database.readStudentsFromFile();
+    	database.readStudentsFromFile();
     	
     	//System.out.println(database.data.get(0).getBirthDate().toString());
     	//System.out.println(database.data.get(0).getSpecialisation().toString());
@@ -25,12 +25,12 @@ public class Main {
     	
     	SQLDatabase DB = new SQLDatabase();
     	
-    	System.out.println(DB.connectToDB());
+    	//System.out.println(DB.connectToDB());
     	//System.out.println(DB.createTABLES());
     	//System.out.println(DB.insertDatabase(database));
     	//System.out.println(DB.getDatabase(database));
     	
-    	DB.disconnectDB();
+    	//DB.disconnectDB();
     	
     	
     	System.out.println(database.getInfo(0));
