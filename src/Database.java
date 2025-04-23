@@ -29,10 +29,10 @@ public class Database {
 	//----------------------------------------------------------
 	public void addStudentToDatabaseWithID(int id, String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
 		if (specialisation == Student.Specialisation.CYBERSECURITY) {
-			data.put(id, new CyberStudent(nextID, surname, name, birtDate, specialisation, grades));
+			data.put(id, new CyberStudent(nextID, name, surname, birtDate, specialisation, grades));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(id, new TeleStudent(nextID, surname, name, birtDate, specialisation, grades));
+			data.put(id, new TeleStudent(nextID, name, surname,, birtDate, specialisation, grades));
 		}
 	}
 		
@@ -48,10 +48,10 @@ public class Database {
 		}
 		
 		if (specialisation == Student.Specialisation.CYBERSECURITY) {
-			data.put(nextID, new CyberStudent(nextID, surname, name, birtDate, specialisation, grades));
+			data.put(nextID, new CyberStudent(nextID, name, surname, birtDate, specialisation, grades));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(nextID, new TeleStudent(nextID, surname, name, birtDate, specialisation, grades));
+			data.put(nextID, new TeleStudent(nextID, name, surname, birtDate, specialisation, grades));
 		}
 	}
 	
