@@ -8,7 +8,8 @@ public class TEST {
         SQLDatabase sqlDB = new SQLDatabase();
         sqlDB.connectToDB();
         sqlDB.createTABLES();
-
+        sqlDB.getDatabase(database);
+        
         boolean run = true;
 
         while (run) {

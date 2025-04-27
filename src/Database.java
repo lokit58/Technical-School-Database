@@ -29,10 +29,10 @@ public class Database {
 	//----------------------------------------------------------
 	public void addStudentToDatabaseWithID(int id, String name, String surname, LocalDate birtDate, Student.Specialisation specialisation, ArrayList<Integer> grades) {
 		if (specialisation == Student.Specialisation.CYBERSECURITY) {
-			data.put(id, new CyberStudent(nextID, name, surname, birtDate, specialisation, grades));
+			data.put(id, new CyberStudent(id, name, surname, birtDate, specialisation, grades));
 		}
 		else if (specialisation == Student.Specialisation.TELECOMMUNICATIONS) {
-			data.put(id, new TeleStudent(nextID, name, surname, birtDate, specialisation, grades));
+			data.put(id, new TeleStudent(id, name, surname, birtDate, specialisation, grades));
 		}
 	}
 		

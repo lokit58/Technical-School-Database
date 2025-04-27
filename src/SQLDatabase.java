@@ -160,6 +160,7 @@ public class SQLDatabase {
 			
 			ResultSet rs = stm.executeQuery(getStudnets);
 			while (rs.next()) {
+				
 				db.addStudentToDatabaseWithID(	rs.getInt("id"), 
 												rs.getString("name"), 
 												rs.getString("surname"),
