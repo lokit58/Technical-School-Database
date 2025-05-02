@@ -5,3 +5,4 @@ myDB.db
 
 *.txt
 !input.txt
+!RecoveryInput.txt
