@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.zip.ZipEntry;
 
 public class TechnicalDatabaseMain {
 
@@ -36,8 +37,13 @@ public class TechnicalDatabaseMain {
                     int day = input.getInt("Zadejte den narození: ");
                     String specStr = input.getString("Zadejte specializaci (CYBERSECURITY/TELECOMMUNICATIONS): ");
                     Student.Specialisation spec = Student.Specialisation.valueOf(specStr.toUpperCase());
-
-                    database.addStudent(name, surname, LocalDate.of(year, month, day), spec);
+                    
+                    try {
+                    	database.addStudent(name, surname, LocalDate.of(year, month, day), spec);
+					} catch (Exception e) {
+						System.out.println("Error with entering: " + e.getMessage());
+					}
+                    
                 }
                 case 2 -> {
                     int id = input.getInt("Zadejte ID studenta: ");
@@ -54,17 +60,60 @@ public class TechnicalDatabaseMain {
                 }
                 case 4 -> {
                     int id = input.getInt("Zadejte ID studenta: ");
-                    System.out.println(database.getInfo(id));
+                    String info = database.getInfo(id);
+                    
+                    if (info.isEmpty() || info.isBlank()) {
+                        System.out.println("Student nebyl nalezen.");
+                    } 
+                    else {
+                        System.out.println(info);
+                    }
+                    
                 }
                 case 5 -> {
                     int id = input.getInt("Zadejte ID studenta: ");
                     System.out.println("Dovednost: " + database.useSpeciality(id));
                 }
                 case 6 -> {
-                    for (Student s : database.getSortedListBySurnames()) {
-                        System.out.println(s);
-                        System.out.println("---------------------");
-                    }
+                	System.out.println("Ze ktereho oboru vypsat studenty?(CYBERSECURITY/TELECOMMUNICATIONS/BOTH)");
+                	String type = input.getString();
+                	
+                	switch (type) {
+					case "CYBERSECURITY" -> {
+						for (Student s : database.getSortedListBySurnames()) {
+							if (s instanceof CyberStudent) {
+								System.out.println(s);
+		                        System.out.println("---------------------");
+							}
+	                        
+	                    }
+						
+						}
+					
+					case "TELECOMMUNICATIONS" -> {
+						for (Student s : database.getSortedListBySurnames()) {
+							if (s instanceof TeleStudent) {
+								System.out.println(s);
+		                        System.out.println("---------------------");
+							}
+	                        
+	                    }
+						
+						}
+					
+					case "BOTH" -> {
+						 for (Student s : database.getSortedListBySurnames()) {
+		                        System.out.println(s);
+		                        System.out.println("---------------------");
+		                    }
+						
+					}
+					default ->{
+						System.out.println("Neplatná volba.");
+						}
+                	}
+                	
+                   
                 }
                 case 7 -> {
                     double[] avg = database.getAvreageGradeOfStudentGroup();

@@ -86,17 +86,20 @@ public class SQLDatabase {
 			PreparedStatement psIds = connection.prepareStatement(primaryId);
 			
 			for (var student : db.data.values()) {
-				if(student.grades != null) {
-					for (int grade : student.grades) {
-						psGrades.setInt(1, student.getId());
-						psGrades.setInt(2, grade);
-						
-						psGrades.addBatch();
-						psGrades.clearParameters();
+				if (student.grades != null) {
+					if(!student.grades.isEmpty()) {
+						for (int grade : student.grades) {
+							//System.out.println(student.getId() + ":" + grade);
+							psGrades.setInt(1, student.getId());
+							psGrades.setInt(2, grade);
+							
+							psGrades.addBatch();
+							psGrades.clearParameters();
+						}
 					}
-					
 				}
 				
+
 				psStudent.setInt(1, student.getId());
 				psStudent.setString(2, student.getName());
 				psStudent.setString(3, student.getSurename());
@@ -112,11 +115,13 @@ public class SQLDatabase {
 			
 			if(!db.getPriorityIDs().isEmpty()) {
 				for (int pG :db.getPriorityIDs()) {
+					//System.out.println(pG);
 					psIds.setInt(1, pG);
+					
 					psIds.addBatch();
 					psIds.clearParameters();
 				}
-				psGrades.execute();
+				psIds.execute();
 			}
 			
 			return true;
@@ -171,6 +176,9 @@ public class SQLDatabase {
 			
 			rs = stm.executeQuery(getGrades);
 			while (rs.next()) {
+				if (rs.getInt("studentId") == 0 && rs.getInt("grade") == 0) {
+					continue;
+				}
 				db.giveGrade(rs.getInt("studentId"),rs.getInt("grade"));
 				
 			}

@@ -77,7 +77,7 @@ public class Database {
 	
 	//----------------------------------------------------------
 	public boolean giveGrade(int ID, int grade) {
-		return data.get(ID).addGrade(grade);
+		return (data.get(ID)).addGrade(grade);
 	}
 	
 	//----------------------------------------------------------

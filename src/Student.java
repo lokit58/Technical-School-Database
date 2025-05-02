@@ -65,6 +65,8 @@ abstract class Student {
     }
 
     public double averageGrades() {
+    	if (grades == null) return 0.0;
+    	
         if (grades.isEmpty()) return 0.0;
 
         int sum = 0;
@@ -76,14 +78,14 @@ abstract class Student {
     }
     @Override
     public String toString() {
-        String gradeText = grades.isEmpty() ? "No grades yet" : grades.toString();
-        String averageText = grades.isEmpty() ? "-" : String.format("%.2f", averageGrades());
+        //String gradeText = grades.isEmpty() ? "No grades yet" : grades.toString();
+        //String averageText = grades.isEmpty() ? "-" : String.format("%.2f", averageGrades());
         return "ID: " + id + "\n" +
                 "Name: " + name + "\n" +
                 "Surename: " + surename + "\n" +
                 "Date of birth " + birthDate + "\n" +
                 "Specialisation: " + specialisation + "\n" +
-                "Grades: " + grades + "\n" +
+                "Grades: " + (grades == null? "No grades yet": grades) + "\n" +
                 "Average of grades: " + averageGrades();
 
     }
