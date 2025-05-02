@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class TEST {
+public class TechnicalDatabaseMain {
 
     public static void main(String[] args) {
         InputManager input = new InputManager();
