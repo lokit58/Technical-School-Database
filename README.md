@@ -1,4 +1,4 @@
-#Technical School Database Project
+# Technical School Database Project
 
 
 A Java-based student database management system that allows you to:
@@ -30,13 +30,13 @@ src/
 ```
 
 
-## 🚀 How to Run
+##  How to Run
 
 1. **Compile the project**
 
 2. **Run the main class: TechnicalDatabaseMain.java **
 
-## 🗃️ Database
+##  Database
 
 The application uses an SQLite database called `StudentDatabase.db` and automatically creates tables for:
 - Students
