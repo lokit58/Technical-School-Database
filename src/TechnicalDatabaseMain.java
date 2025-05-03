@@ -4,6 +4,7 @@ import java.util.zip.ZipEntry;
 public class TechnicalDatabaseMain {
 
     public static void main(String[] args) {
+
         InputManager input = new InputManager();
         Database database = new Database();
         SQLDatabase sqlDB = new SQLDatabase();
@@ -30,26 +31,55 @@ public class TechnicalDatabaseMain {
 
             switch (choice) {
                 case 1 -> {
-                    String name = input.getString("Zadejte jméno: ");
-                    String surname = input.getString("Zadejte příjmení: ");
-                    int year = input.getInt("Zadejte rok narození: ");
-                    int month = input.getInt("Zadejte měsíc narození: ");
-                    int day = input.getInt("Zadejte den narození: ");
-                    String specStr = input.getString("Zadejte specializaci (CYBERSECURITY/TELECOMMUNICATIONS): ");
-                    Student.Specialisation spec = Student.Specialisation.valueOf(specStr.toUpperCase());
-                    
-                    try {
-                    	database.addStudent(name, surname, LocalDate.of(year, month, day), spec);
-					} catch (Exception e) {
-						System.out.println("Error with entering: " + e.getMessage());
-					}
-                    
+                    boolean added = false;
+
+                    while (!added) {
+                        try {
+                            String name = input.getString("Zadejte jméno: ");
+                            String surname = input.getString("Zadejte příjmení: ");
+                            int year = input.getInt("Zadejte rok narození: ");
+                            int month = input.getInt("Zadejte měsíc narození: ");
+                            int day = input.getInt("Zadejte den narození: ");
+                            String specStr = input.getString("Zadejte specializaci (CYBERSECURITY/TELECOMMUNICATIONS): ");
+
+                            LocalDate birthDate = LocalDate.of(year, month, day);
+                            Student.Specialisation spec = Student.Specialisation.valueOf(specStr.toUpperCase());
+
+                            database.addStudent(name, surname, birthDate, spec);
+                            System.out.println("Student úspěšně přidán.");
+                            added = true;
+
+                        } catch (java.time.DateTimeException e) {
+                            System.out.println("Neplatné datum narození: " + e.getMessage());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Neplatná specializace. Zkuste CYBERSECURITY nebo TELECOMMUNICATIONS.");
+                        } catch (Exception e) {
+                            System.out.println("Chyba při vkládání studenta: " + e.getMessage());
+                        }
+                    }
                 }
                 case 2 -> {
                     int id = input.getInt("Zadejte ID studenta: ");
-                    int grade = input.getInt("Zadejte známku: ");
+
+                    if (!database.data.containsKey(id)) {
+                        System.out.println("Student s tímto ID neexistuje.");
+                        break;
+                    }
+
+                    int grade;
+                    while (true) {
+                        grade = input.getInt("Zadejte známku (1–5): ");
+                        if (grade >= 1 && grade <= 5) {
+                            break;
+                        } else {
+                            System.out.println("Neplatná známka. Zadejte číslo mezi 1 a 5.");
+                        }
+                    }
+
                     database.giveGrade(id, grade);
+                    System.out.println(".");
                 }
+
                 case 3 -> {
                     int id = input.getInt("Zadejte ID studenta k odstranění: ");
                     if (database.removeStudent(id)) {
@@ -72,7 +102,11 @@ public class TechnicalDatabaseMain {
                 }
                 case 5 -> {
                     int id = input.getInt("Zadejte ID studenta: ");
-                    System.out.println("Dovednost: " + database.useSpeciality(id));
+                    if (!database.data.containsKey(id)) {
+                        System.out.println("Chyba: Student s tímto ID neexistuje.");
+                    } else {
+                        System.out.println("Dovednost: " + database.useSpeciality(id));
+                    }
                 }
                 case 6 -> {
                 	System.out.println("Ze ktereho oboru vypsat studenty?(CYBERSECURITY/TELECOMMUNICATIONS/BOTH)");
