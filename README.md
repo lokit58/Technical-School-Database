@@ -34,7 +34,7 @@ src/
 
 1. **Compile the project**
 
-2. **Run the main class: TechnicalDatabaseMain.java **
+2. **Run the main class: TechnicalDatabaseMain.java**
 
 ##  Database
 
