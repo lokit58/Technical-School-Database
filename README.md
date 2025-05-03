@@ -12,8 +12,8 @@ A Java-based student database management system that allows you to:
 
 ## Authors
 
-Vít Němeček
-Ema Ondrušková
+- Vít Němeček
+- Ema Ondrušková
 
 ## Project Structure
 
